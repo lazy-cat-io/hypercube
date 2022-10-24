@@ -1,0 +1,18 @@
+[package]
+name = "hypercube"
+description = "The next-generation IDE focused on AST rather than text"
+version = "0.0.1"
+
+license = "MIT"
+readme = "readme.md"
+
+authors = ["Ilshat Sultanov <ilshat@sultanov.team>"]
+homepage = "https://hypercube.red"
+repository = "https://github.com/lazy-cat-io/hypercube"
+categories = []
+
+edition = "2021"
+rust-version = "1.64"
+exclude = []
+
+[dependencies]
