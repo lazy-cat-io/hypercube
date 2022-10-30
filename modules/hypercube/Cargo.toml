@@ -1,6 +1,6 @@
 [package]
 name = "hypercube"
-description = "The next-generation IDE focused on AST rather than text"
+description = "The next-generation IDE focused on language rather than text"
 version = "0.0.1"
 
 license = "MIT"

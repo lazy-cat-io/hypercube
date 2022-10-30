@@ -1,6 +1,6 @@
 # Hypercube
 
-The next-generation `IDE` focused on `AST` rather than `text`.
+The next-generation `IDE` focused on `language` rather than `text`.
 
 ## Rationale
 TBD
