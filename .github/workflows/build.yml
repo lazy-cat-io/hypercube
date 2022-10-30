@@ -74,3 +74,19 @@ jobs:
         with:
           target: ${{ matrix.platform.target }}
           toolchain: ${{ matrix.rust_version }}
+
+      - name: Check docs
+        shell: bash
+        run: cargo $CMD doc --no-deps --target ${{ matrix.platform.target }} $OPTIONS --features $FEATURES
+
+      - name: Build
+        shell: bash
+        run: cargo $CMD build --verbose --target ${{ matrix.platform.target }} $OPTIONS --features $FEATURES
+
+      - name: Build tests
+        shell: bash
+        run: cargo $CMD test --no-run --verbose --target ${{ matrix.platform.target }} $OPTIONS --features $FEATURES
+
+      - name: Run tests
+        shell: bash
+        run: cargo $CMD test --verbose --target ${{ matrix.platform.target }} $OPTIONS --features $FEATURES
