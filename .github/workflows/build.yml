@@ -33,6 +33,8 @@ jobs:
           args: --all -- --check
 
   test:
+    needs: lint
+
     strategy:
       fail-fast: false
       matrix:
