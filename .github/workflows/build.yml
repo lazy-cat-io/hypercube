@@ -32,6 +32,7 @@ jobs:
           command: fmt
           args: --all -- --check
 
+
   test:
     needs: lint
 
