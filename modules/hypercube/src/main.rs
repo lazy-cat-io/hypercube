@@ -1,15 +1,18 @@
-fn main() {
-  println!("Hello, hypercube!");
-}
+use tracing_subscriber;
 
-#[allow(dead_code)]
-fn square(x: i32) -> i32 {
-  x.pow(2)
+use hypercube::editor::engine;
+
+fn main() {
+  tracing_subscriber::fmt::init();
+  println!("Hello, {}!", engine::Engine::Hypercube);
 }
 
 #[cfg(test)]
 mod tests {
-  use super::*;
+
+  fn square(x: i32) -> i32 {
+    x.pow(2)
+  }
 
   #[test]
   fn square_test() {
