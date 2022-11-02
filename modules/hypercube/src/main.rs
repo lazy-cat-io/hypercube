@@ -1,10 +1,12 @@
 use tracing_subscriber;
 
-use hypercube::editor::engine;
+use hypercube::editor::engine::Engine;
+use hypercube::ui::keyboard::Key;
 
 fn main() {
   tracing_subscriber::fmt::init();
-  println!("Hello, {}!", engine::Engine::Hypercube);
+  println!("{}", Key::Character("X"));
+  println!("{}", Engine::Hypercube);
 }
 
 #[cfg(test)]
