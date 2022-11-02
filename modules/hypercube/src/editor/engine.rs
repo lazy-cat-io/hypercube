@@ -9,8 +9,8 @@ pub enum Engine {
 impl fmt::Display for Engine {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match self {
-      Engine::Default => write!(f, "Default"),
-      Engine::Hypercube => write!(f, "Hypercube"),
+      Engine::Default => write!(f, "Engine::Default"),
+      Engine::Hypercube => write!(f, "Engine::Hypercube"),
     }
   }
 }
