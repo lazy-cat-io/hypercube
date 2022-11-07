@@ -1,12 +1,15 @@
 edition = "2021"
 force_explicit_abi = true
+format_code_in_doc_comments = true
 group_imports = "One"
 hard_tabs = false
 imports_granularity = "Crate"
 indent_style = "Block"
 max_width = 130
 merge_derives = true
+merge_imports = true
 newline_style = "Unix"
+normalize_comments = true
 remove_nested_parens = true
 reorder_imports = true
 reorder_modules = true
