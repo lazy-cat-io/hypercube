@@ -6,8 +6,8 @@
            (when (and print-doc? doc)
              (println (format "\n▸ %s \n" doc))))
 
-  tree {:doc "Show modules tree"
-        :task (shell "cargo modules generate tree --lib")}
+  tree {:doc "Show the module tree"
+        :task (shell "cargo modules generate tree --lib --with-types --with-tests --with-orphans")}
 
   clippy {:doc "Run clippy"
           :task (shell "cargo clippy")}
