@@ -1,0 +1,36 @@
+{:min-bb-version "1.0.165"
+
+ :tasks
+ {:enter (let [{:keys [doc print-doc?]
+                :or   {print-doc? true}} (current-task)]
+           (when (and print-doc? doc)
+             (println (format "\n▸ %s \n" doc))))
+
+  tree {:doc "Show modules tree"
+        :task (shell "cargo modules generate tree --lib")}
+
+  clippy {:doc "Run clippy"
+          :task (shell "cargo clippy")}
+
+  fmt {:doc "Run fmt"
+       :task (shell "cargo fmt --all --check")}
+
+  lint {:doc "Run linters"
+        :task (do
+                (run 'fmt)
+                (run 'clippy))}
+
+  test {:doc "Run tests"
+        :task (shell "cargo test")}
+
+  build {:doc "Run build"
+         :task (shell "cargo build --release")}
+
+  run {:doc "Run release"
+       :task (shell "cargo run --release")}
+
+  all {:doc "Run linters, tests and build"
+       :task (do
+               (run 'lint)
+               (run 'test)
+               (run 'build))}}}
