@@ -1,3 +1,5 @@
+use tracing::info;
+
 use super::Component;
 
 #[derive(Debug, Clone, Copy)]
@@ -17,6 +19,6 @@ impl Default for Button {
 
 impl Component for Button {
   fn render(&self) {
-    println!("render Button")
+    info!("render Button")
   }
 }

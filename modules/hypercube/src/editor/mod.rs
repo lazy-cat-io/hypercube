@@ -1,4 +1,5 @@
 use std::fmt;
+use tracing::info;
 
 use super::{cli, ui};
 
@@ -17,11 +18,12 @@ impl fmt::Display for Engine {
   }
 }
 
-pub fn launch(args: cli::Args) {
-  println!("hypercube launch!");
-  println!("received args: {:?}", args);
+pub async fn launch(args: cli::Args) {
+  info!("hypercube launch!");
+  info!("received args: {:?}", args);
   let button = ui::component::Button::new();
   let rect = ui::geometry::Rect::new();
   ui::Component::render(&button);
   ui::Geometry::render(&rect);
+  ui::window::run();
 }

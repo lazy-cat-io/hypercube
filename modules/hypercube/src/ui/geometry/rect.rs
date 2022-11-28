@@ -1,3 +1,5 @@
+use tracing::info;
+
 use super::Geometry;
 
 #[derive(Debug, Clone, Copy)]
@@ -17,6 +19,6 @@ impl Default for Rect {
 
 impl Geometry for Rect {
   fn render(&self) {
-    println!("render Rect")
+    info!("render Rect")
   }
 }
