@@ -1,7 +1,11 @@
 use clap::Parser;
 use tracing::info;
 
-use hypercube::{cli, config, editor};
+use hypercube::{
+  cli::{self, Mode},
+  config,
+  system::{client, server},
+};
 
 #[tokio::main]
 async fn main() {
@@ -10,7 +14,9 @@ async fn main() {
   let args = cli::Args::parse();
 
   info!("config path: {:?}", config::config_dir());
-  info!("cli args: {:?}", args);
 
-  editor::launch(args).await;
+  match args.mode {
+    Mode::Client => client::start(args).await,
+    Mode::Server => server::start(args).await,
+  }
 }

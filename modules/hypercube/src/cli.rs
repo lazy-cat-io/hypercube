@@ -1,9 +1,14 @@
-use std::path::PathBuf;
+use clap::{Parser, ValueEnum};
 
-use clap::Parser;
-
-#[derive(Debug, Parser)]
+#[derive(Debug, Parser, Clone)]
 #[command(author, version, about, long_about = None)]
 pub struct Args {
-  pub path: Option<PathBuf>,
+  #[clap(long, value_enum, default_value_t = Mode::Client)]
+  pub mode: Mode,
+}
+
+#[derive(Debug, Clone, ValueEnum)]
+pub enum Mode {
+  Client,
+  Server,
 }
