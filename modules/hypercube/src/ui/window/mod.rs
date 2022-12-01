@@ -1,6 +1,10 @@
+use std::str::FromStr;
+
 use tao::{
+  accelerator::Accelerator,
   event::{ElementState, Event, WindowEvent},
   event_loop,
+  global_shortcut::ShortcutManager,
   keyboard::Key as KeyPress,
   window::{Theme, Window, WindowBuilder},
 };
@@ -20,6 +24,7 @@ pub enum HypercubeEvent {}
 pub struct Renderer {
   pub event_loop: event_loop::EventLoop<HypercubeEvent>,
   pub event_loop_proxy: event_loop::EventLoopProxy<HypercubeEvent>,
+  pub hotkey_manager: ShortcutManager,
   pub wgpu: Wgpu,
   pub window: Window,
 }
@@ -34,6 +39,8 @@ impl Renderer {
   pub fn new() -> Self {
     let event_loop = event_loop::EventLoop::<HypercubeEvent>::with_user_event();
     let event_loop_proxy = event_loop.create_proxy();
+    let hotkey_manager = ShortcutManager::new(&event_loop);
+
     let window_title = String::from("::hypercube");
     let builder = WindowBuilder::new().with_title(&window_title).with_decorations(false).with_theme(Some(Theme::Light));
     let window = builder.build(&event_loop).unwrap();
@@ -42,11 +49,13 @@ impl Renderer {
       .expect("Unsupported platform! 'apply_vibrancy' is only supported on macOS");
 
     let wgpu = pollster::block_on(Wgpu::init(&window));
-    Self { event_loop, event_loop_proxy, wgpu, window }
+    Self { event_loop, event_loop_proxy, hotkey_manager, wgpu, window }
   }
 
   pub fn run(self) {
     let event_loop = self.event_loop;
+    let _event_loop_proxy = self.event_loop_proxy;
+    let mut hotkey_manager = self.hotkey_manager;
     let window = self.window;
     let wgpu = self.wgpu;
 
@@ -56,6 +65,9 @@ impl Renderer {
     let _adapter = wgpu.adapter;
     let _queue = wgpu.queue;
     let mut config = wgpu.surface_configuration;
+
+    let cmd_plus_q = Accelerator::from_str("Command+Q").unwrap();
+    hotkey_manager.register(cmd_plus_q.clone()).unwrap();
 
     event_loop.run(move |event, _, control_flow| {
       *control_flow = event_loop::ControlFlow::Wait;
@@ -126,6 +138,11 @@ impl Renderer {
           }
         }
 
+        Event::GlobalShortcutEvent(hotkey_id) if hotkey_id == cmd_plus_q.clone().id() => {
+          info!("Received `cmd+q` shortcut. Application is stopping...");
+          *control_flow = event_loop::ControlFlow::Exit;
+        }
+
         Event::UserEvent(event) => {
           info!("user event: {:?}", event);
         }
@@ -144,7 +161,9 @@ impl Renderer {
         // Event::MenuEvent { menu_id, .. } => {
         //   info!("menu event: {:?}", menu_id)
         // }
-        Event::WindowEvent { event: WindowEvent::CloseRequested, .. } => *control_flow = event_loop::ControlFlow::Exit,
+        Event::WindowEvent { event: WindowEvent::CloseRequested, window_id, .. } if window_id == window.id() => {
+          *control_flow = event_loop::ControlFlow::Exit
+        }
 
         Event::MainEventsCleared => {
           window.request_redraw();
